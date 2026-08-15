@@ -8,11 +8,37 @@
 import SwiftUI
 
 struct CardView: View {
+    let card: Card
+    
+    @State private var isShowingAnswer: Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(Color.white)
+                .shadow(radius: 10)
+            
+            VStack {
+                Text(card.prompt)
+                    .font(.largeTitle)
+                    .foregroundStyle(.black)
+                
+                if isShowingAnswer {
+                    Text(card.answer)
+                        .font(.title)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(20)
+            .multilineTextAlignment(.center)
+        }
+        .frame(width: 450, height: 250)
+        .onTapGesture {
+            isShowingAnswer.toggle()
+        }
     }
 }
 
 #Preview {
-    CardView()
+    CardView(card: Card.example)
 }
