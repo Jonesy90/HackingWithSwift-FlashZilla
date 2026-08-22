@@ -55,6 +55,17 @@ struct ContentView: View {
                         .stacked(at: index, in: cards.count)
                     }
                 }
+                /// Enables or disables user interactions for the view it's applied to (and all of its child views).
+                /// If 'timeRemaining' drops to zero, all the user interactions will be disabled for this part of the UI.
+                .allowsHitTesting(timeRemaining > 0)
+                
+                if cards.isEmpty {
+                    Button("Start Again", action: resetCards)
+                        .padding()
+                        .background(.white)
+                        .foregroundStyle(.black)
+                        .clipShape(.capsule)
+                }
             }
             
             /// Helps users who have difficulty distinguishing colours by providing alternative options.
@@ -93,7 +104,9 @@ struct ContentView: View {
         /// If the 'scenePhase' changes state, which returns the current state of the apps scene (e.g., Active or Inactive).
         .onChange(of: scenePhase) {
             if scenePhase == .active {
-                isActive = true
+                if cards.isEmpty == false {
+                    isActive = true
+                }
             } else {
                 isActive = false
             }
@@ -102,6 +115,10 @@ struct ContentView: View {
     
     /// Removes a card from the array (of cards) at a specific position.
     func removeCard(at index: Int) {
+        if cards.isEmpty {
+            isActive = false
+        }
+        
         cards.remove(at: index)
     }
     
