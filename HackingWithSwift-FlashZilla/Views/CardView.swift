@@ -69,7 +69,8 @@ struct CardView: View {
         
         /// Adjusts the transparency of the CardView based on how far it has been dragged horizontally.
         .opacity(2 - Double(abs(offset.width / 50)))
-        
+        /// Informs accessibility users that this view has a button.
+        .accessibilityAddTraits(.isButton)
         /// Attaches a drag gesture to the CardView, enabling interactive dragging of the card.
         .gesture(
             /// As the user drags the card, this closure is called repeatedly with the latest drag gesture data.
