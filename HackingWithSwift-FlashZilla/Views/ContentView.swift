@@ -81,13 +81,16 @@ struct ContentView: View {
                 }
             }
         }
+        /// SwiftUI view modifier that allows the view to respond whenever the timer publisher emits a value.
         .onReceive(timer) { time in
+            /// Makes sure the code inside the closure only runs if the 'isActive' state property is true.
             guard isActive else { return }
             
             if timeRemaining > 0 {
                 timeRemaining -= 1
             }
         }
+        /// If the 'scenePhase' changes state, which returns the current state of the apps scene (e.g., Active or Inactive).
         .onChange(of: scenePhase) {
             if scenePhase == .active {
                 isActive = true
