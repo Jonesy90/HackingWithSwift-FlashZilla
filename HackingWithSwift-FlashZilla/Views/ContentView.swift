@@ -56,6 +56,8 @@ struct ContentView: View {
                         .stacked(at: index, in: cards.count)
                         /// Only allows the top card of the deck to be swiped.
                         .allowsHitTesting(index == cards.count - 1)
+                        /// Only applies accessibility assistance to the top card on the deck.
+                        .accessibilityHidden(index < cards.count - 1)
                     }
                 }
                 /// Enables or disables user interactions for the view it's applied to (and all of its child views).
