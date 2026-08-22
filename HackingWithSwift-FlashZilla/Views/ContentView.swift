@@ -5,6 +5,7 @@
 //  Created by Michael Jones on 15/08/2026.
 //
 
+import Combine
 import SwiftUI
 
 /// Adds a new method to all SwiftUI views and calculates how far from the bottom this item is.
@@ -22,12 +23,25 @@ struct ContentView: View {
     /// Creates an Array of Card that repeats on the example constant 10 times.
     @State private var cards = Array<Card>.init(repeating: .example, count: 10)
     
+    ///Used to track the countdown timer for the user and is displayed as Text.
+    @State private var timeRemaining = 100
+    /// Creates a repeating time that sends out an event every 1 second. It is later used in '.onReceive' modifier to decrement 'timeRemaining'.
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         ZStack {
             Image(.background)
                 .resizable()
                 .ignoresSafeArea()
             VStack {
+                Text("Time Remaining: \(timeRemaining)")
+                    .font(.largeTitle)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 5)
+                    .background(.black.opacity(0.75))
+                    .clipShape(.capsule)
+                
                 ZStack {
                     ForEach(0..<cards.count, id: \.self) { index in
                         CardView(card: cards[index]) {
@@ -62,6 +76,20 @@ struct ContentView: View {
                     .font(.title)
                     .padding()
                 }
+            }
+        }
+        .onReceive(timer) { time in
+            guard isActive else { return }
+            
+            if timeRemaining > 0 {
+                timeRemaining -= 1
+            }
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                isActive = true
+            } else {
+                isActive = false
             }
         }
     }
