@@ -104,6 +104,13 @@ struct ContentView: View {
     func removeCard(at index: Int) {
         cards.remove(at: index)
     }
+    
+    /// This function is responsible for restarting the game.
+    func resetCards() {
+        cards = Array<Card>.init(repeating: .example, count: 10)
+        timeRemaining = 100
+        isActive = true
+    }
 }
 
 #Preview {
