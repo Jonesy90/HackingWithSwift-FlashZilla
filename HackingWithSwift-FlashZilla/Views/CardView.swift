@@ -60,7 +60,7 @@ struct CardView: View {
         .offset(x: offset.width * 5)
         
         /// Adjusts the transparency of the CardView based on how far it has been dragged horizontally.
-        .opacity(1 - Double(abs(offset.width / 50)))
+        .opacity(2 - Double(abs(offset.width / 50)))
         
         /// Attaches a drag gesture to the CardView, enabling interactive dragging of the card.
         .gesture(
