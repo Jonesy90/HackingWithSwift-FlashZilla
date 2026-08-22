@@ -19,6 +19,9 @@ extension View {
 
 struct ContentView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var accessibilityDifferentiateWithoutColor
+    @Environment(\.scenePhase) var scenePhase
+    
+    @State private var isActive = true
     
     /// Creates an Array of Card that repeats on the example constant 10 times.
     @State private var cards = Array<Card>.init(repeating: .example, count: 10)
