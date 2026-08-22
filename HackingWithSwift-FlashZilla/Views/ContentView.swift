@@ -135,11 +135,13 @@ struct ContentView: View {
     
     /// Removes a card from the array (of cards) at a specific position.
     func removeCard(at index: Int) {
+        guard index >= 0 else { return }
+        
+        cards.remove(at: index)
+        
         if cards.isEmpty {
             isActive = false
         }
-        
-        cards.remove(at: index)
     }
     
     /// This function is responsible for restarting the game.
