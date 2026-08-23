@@ -23,9 +23,11 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @State private var isActive = true
+    @State private var showingEditScreen = false
     
     /// Creates an Array of Card that repeats on the example constant 10 times.
-    @State private var cards = Array<Card>.init(repeating: .example, count: 10)
+//    @State private var cards = Array<Card>.init(repeating: .example, count: 10)
+    @State private var cards = [Card]()
     
     ///Used to track the countdown timer for the user and is displayed as Text.
     @State private var timeRemaining = 100
@@ -72,6 +74,26 @@ struct ContentView: View {
                         .clipShape(.capsule)
                 }
             }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showingEditScreen = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .padding()
+                            .background(.black.opacity(0.75))
+                            .clipShape(.circle)
+                    }
+                }
+                
+                Spacer()
+            }
+            .foregroundStyle(.white)
+            .font(.largeTitle)
+            .padding()
             
             /// Helps users who have difficulty distinguishing colours by providing alternative options.
             if accessibilityDifferentiateWithoutColor || accessibilityVoiceOverEnabled {
@@ -133,6 +155,10 @@ struct ContentView: View {
                 isActive = false
             }
         }
+        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
+            EditCards()
+        }
+        .onAppear(perform: resetCards)
     }
     
     /// Removes a card from the array (of cards) at a specific position.
@@ -148,9 +174,17 @@ struct ContentView: View {
     
     /// This function is responsible for restarting the game.
     func resetCards() {
-        cards = Array<Card>.init(repeating: .example, count: 10)
         timeRemaining = 100
         isActive = true
+        loadData()
+    }
+    
+    func loadData() {
+        if let data = UserDefaults.standard.data(forKey: "Cards") {
+            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
+                cards = decoded
+            }
+        }
     }
 }
 
