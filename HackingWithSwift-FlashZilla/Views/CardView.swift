@@ -5,6 +5,14 @@
 //  Created by Michael Jones on 15/08/2026.
 //
 
+/*
+ Challenge 02:
+ If you drag a card to the right but not far enough to remove it, then release, you see it turn red as it slides back to the centre.
+ Why does this happen and how can you fix it?
+ 
+ (Tip: think about the way we set offset back to 0 immediately, even though the card hasn’t animated yet. You might solve this with a ternary within a ternary, but a custom modifier will be cleaner.)
+*/
+
 import SwiftUI
 
 struct CardView: View {
