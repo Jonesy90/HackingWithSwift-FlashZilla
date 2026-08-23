@@ -5,6 +5,10 @@
 //  Created by Michael Jones on 22/08/2026.
 //
 
+/*
+ Challenge 01: When adding a card, the text fields keep their current text. Fix that so that the textfields clear themselves after a card is added.
+*/
+
 import SwiftUI
 
 struct EditCards: View {
@@ -60,6 +64,9 @@ struct EditCards: View {
         if let data = try? JSONEncoder().encode(cards) {
             UserDefaults.standard.set(data, forKey: "Cards")
         }
+        // Bug Fix | Challenge 01: After the Card object is saved to UserDefaults. The @State properties for the Answer and Prompt are reset for the next card.
+        newAnswer = String()
+        newPrompt = String()
     }
     
     func addCard() {
