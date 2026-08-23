@@ -32,9 +32,9 @@ struct CardView: View {
     @Environment(\.accessibilityVoiceOverEnabled) var accessibilityVoiceOverEnabled
     
     let card: Card
-    /// Defines a Optional Closure Property.
-    /// This is a common technique in SwiftUI to allow parent views to inject custom behaviour into child views.
-    var removal: (() -> Void)? = nil
+    /// Defines a Optional Closure Property. This is a common technique in SwiftUI to allow parent views to inject custom behaviour into child views.
+    /// This needs to receive a boolean to know if the card should be removed or not.
+    var removal: ((Bool) -> Void)? = nil
     
     @State private var isShowingAnswer: Bool = false
     
@@ -103,7 +103,13 @@ struct CardView: View {
                 .onEnded { _ in
                     /// If the drag is more than 100 points on either side, it calls a closure to remove the card from the stack. Otherwise, return the card back to its starting position.
                     if abs(offset.width) > 100 {
-                        removal?()
+                        /// If the swipe was to the right (more than 0) do not reinsert but if it was to the left (less than 0) then reinsert).
+                        if offset.width > 0 {
+                            removal?(false)
+                        } else {
+                            removal?(true)
+                            offset = .zero
+                        }
                     } else {
                         offset = .zero
                     }

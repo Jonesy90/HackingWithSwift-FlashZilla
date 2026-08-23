@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Card: Codable {
+struct Card: Codable, Identifiable, Equatable, Hashable {
+    var id = UUID()
     var prompt: String
     var answer: String
     
     /// Static constant on the Card struct.
-    static let example = Card(prompt: "What is 2 + 2?", answer: "4")
+    static let example = Card(id: UUID(), prompt: "What is 2 + 2?", answer: "4")
 }
